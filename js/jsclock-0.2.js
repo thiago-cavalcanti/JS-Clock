@@ -53,7 +53,7 @@
 		// This is a utility function used by both approaches
 		var updateTimeString = function(){
 			var addLeadingZero = function(iTimeStringFragment){
-				if(iTimeStringFragment < 10){
+				if(iTimeStringFragment < 10 && iTimeStringFragment.length !== 2){
 					iTimeStringFragment = "0" + iTimeStringFragment;
 				}
 				return iTimeStringFragment;
