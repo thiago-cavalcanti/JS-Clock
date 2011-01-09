@@ -20,8 +20,7 @@
       iCurrentMinute = addLeadingZero(iCurrentMinute);
       iCurrentSecond = addLeadingZero(iCurrentSecond);
       sCurrentTime = "" + iCurrentHour + ":" + iCurrentMinute + ":" + iCurrentSecond;
-      oApplyTo.html(sCurrentTime);
-      return true;
+      return oApplyTo.html(sCurrentTime);
     };
     rValidateTimeString = /^(([01][0-9])|(2[0-3])):[0-5][0-9]:[0-5][0-9]$/;
     if (sTime) {
@@ -47,11 +46,9 @@
             }
           }
           updateTimeString();
-          setTimeout(clockwork, 1000);
-          return true;
+          return setTimeout(clockwork, 1000);
         };
-        clockwork();
-        return true;
+        return clockwork();
       } else {
         return oApplyTo.html('Time string <strong>must</strong> be in the format "HH:MM:SS". Hours, minutes and seconds are all <strong>REQUIRED</strong>, as are the leading zeros, if any.');
       }
@@ -63,11 +60,9 @@
         iCurrentMinute = oCurrentDate.getMinutes();
         iCurrentSecond = oCurrentDate.getSeconds();
         updateTimeString();
-        setTimeout(clientClock, 1000);
-        return true;
+        return setTimeout(clientClock, 1000);
       };
-      clientClock();
-      return true;
+      return clientClock();
     }
   };
 }).call(this);

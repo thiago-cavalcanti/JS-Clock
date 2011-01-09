@@ -61,7 +61,6 @@ $.fn.jsclock = (sTime) ->
       iCurrentSecond = addLeadingZero(iCurrentSecond)
       sCurrentTime   = "#{iCurrentHour}:#{iCurrentMinute}:#{iCurrentSecond}"
       oApplyTo.html(sCurrentTime)
-      return true
    #
    # This RegEx matches time strings in the format HH:MM:SS
    # Hours, minutes and seconds are all REQUIRED, as are the leading zeros, if any
@@ -91,9 +90,7 @@ $.fn.jsclock = (sTime) ->
                      iCurrentHour = 0
             updateTimeString()
             (setTimeout(clockwork, 1000))
-            return true
          clockwork()
-         return true
       # Warn developer if he/she messed up the time string parameter to this plugin
       else
          oApplyTo.html('Time string <strong>must</strong> be in the format "HH:MM:SS". Hours, minutes and seconds are all <strong>REQUIRED</strong>, as are the leading zeros, if any.')
@@ -106,6 +103,4 @@ $.fn.jsclock = (sTime) ->
          iCurrentSecond = oCurrentDate.getSeconds()
          updateTimeString()
          (setTimeout(clientClock, 1000))
-         return true
       clientClock()
-      return true
