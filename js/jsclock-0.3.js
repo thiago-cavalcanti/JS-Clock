@@ -1,12 +1,12 @@
 /*!
- *	JS Clock - jQuery Plugin version 0.3
- * 	No website for now.
+ * JS Clock - jQuery Plugin version 0.3
+ *    No website for now.
  *
- *	Copyright (c) 2010 Thiago Cavalcanti Pimenta.
- *	Dual licensed under the MIT and GPL version 3 licenses.
+ * Copyright (c) 2010 Thiago Cavalcanti Pimenta.
+ * Dual licensed under the MIT and GPL version 3 licenses.
  * Check mit.txt and gpl.txt on this distribution for the respective licensing text.
  *
- *	Date: 2011-01-09 (Sun, 9 Jan 2011)
+ * Date: 2011-01-09 (Sun, 9 Jan 2011)
  */
  
 /*
@@ -43,83 +43,83 @@
  */
   
 (function($){
-	$.fn.jsclock = function(sTime){
-		// Both the Date object approach and the built-in clockwork algorithm need these
-		var iCurrentHour;
-		var iCurrentMinute;
-		var iCurrentSecond;
-		var sCurrentTime;
-		var oApplyTo = $(this);
-		// This is a utility function used by both approaches
-		var updateTimeString = function(){
-			var addLeadingZero = function(iTimeStringFragment){
-				if(iTimeStringFragment < 10 && iTimeStringFragment.length !== 2){
-					iTimeStringFragment = "0" + iTimeStringFragment;
-				}
-				return iTimeStringFragment;
-			};
-			iCurrentHour   = addLeadingZero(iCurrentHour);
-			iCurrentMinute = addLeadingZero(iCurrentMinute);
-			iCurrentSecond = addLeadingZero(iCurrentSecond);
-			sCurrentTime   = iCurrentHour + ":" + iCurrentMinute + ":" + iCurrentSecond;
-			oApplyTo.html(sCurrentTime);
-		};
-		/*
-		 * This RegEx matches time strings in the format HH:MM:SS
-		 * Hours, minutes and seconds are all REQUIRED, as are the leading zeros, if any
-		 */
-		var rValidateTimeString = /^(([01][0-9])|(2[0-3])):[0-5][0-9]:[0-5][0-9]$/;
-		// If a time string has been passed we'll use the clockwork algorithm
-		if(sTime){
-			// Need to make sure it's a valid time string before proceeding
-			if(rValidateTimeString.test(sTime)){
-				var aHoursMinutesSeconds = sTime.split(':');
-				iCurrentHour   = aHoursMinutesSeconds[0];
-				iCurrentMinute = aHoursMinutesSeconds[1];
-				iCurrentSecond = aHoursMinutesSeconds[2];
-				// Clockwork algorithm
-				var clockwork = function(){
-					if(iCurrentSecond < 59){
-						iCurrentSecond++;
-					}
-					else{
-						iCurrentSecond = 0;
-						if(iCurrentMinute < 59){
-							iCurrentMinute++;
-						}
-						else{
-							iCurrentMinute = 0;
-							if(iCurrentHour < 23){
-								iCurrentHour++;
-							}
-							else{
-								iCurrentHour = 0;
-							}
-						}
-					}
-					updateTimeString();
-					(setTimeout(clockwork, 1000));
-				};
-				clockwork();
-			}
-			// Warn developer if he/she messed up the time string parameter to this plugin
-			else{
-				oApplyTo.html('Time string <strong>must</strong> be in the format "HH:MM:SS". Hours, minutes and seconds are all <strong>REQUIRED</strong>, as are the leading zeros, if any.');
-			}
-		}
-		// If there was no time string we let the Date object do the heavy-lifting
-		else{
-			var oCurrentDate;
-			var clientClock = function(){
-				oCurrentDate   = new Date();
-				iCurrentHour   = oCurrentDate.getHours();
-				iCurrentMinute = oCurrentDate.getMinutes();
-				iCurrentSecond = oCurrentDate.getSeconds();
-				updateTimeString();
-				(setTimeout(clientClock, 1000));
-			};
-			clientClock();
-		}
-	};
+   $.fn.jsclock = function(sTime){
+      // Both the Date object approach and the built-in clockwork algorithm need these
+      var iCurrentHour;
+      var iCurrentMinute;
+      var iCurrentSecond;
+      var sCurrentTime;
+      var oApplyTo = $(this);
+      // This is a utility function used by both approaches
+      var updateTimeString = function(){
+         var addLeadingZero = function(iTimeStringFragment){
+            if(iTimeStringFragment < 10 && iTimeStringFragment.length !== 2){
+               iTimeStringFragment = "0" + iTimeStringFragment;
+            }
+            return iTimeStringFragment;
+         };
+         iCurrentHour   = addLeadingZero(iCurrentHour);
+         iCurrentMinute = addLeadingZero(iCurrentMinute);
+         iCurrentSecond = addLeadingZero(iCurrentSecond);
+         sCurrentTime   = iCurrentHour + ":" + iCurrentMinute + ":" + iCurrentSecond;
+         oApplyTo.html(sCurrentTime);
+      };
+      /*
+       * This RegEx matches time strings in the format HH:MM:SS
+       * Hours, minutes and seconds are all REQUIRED, as are the leading zeros, if any
+       */
+      var rValidateTimeString = /^(([01][0-9])|(2[0-3])):[0-5][0-9]:[0-5][0-9]$/;
+      // If a time string has been passed we'll use the clockwork algorithm
+      if(sTime){
+         // Need to make sure it's a valid time string before proceeding
+         if(rValidateTimeString.test(sTime)){
+            var aHoursMinutesSeconds = sTime.split(':');
+            iCurrentHour   = aHoursMinutesSeconds[0];
+            iCurrentMinute = aHoursMinutesSeconds[1];
+            iCurrentSecond = aHoursMinutesSeconds[2];
+            // Clockwork algorithm
+            var clockwork = function(){
+               if(iCurrentSecond < 59){
+                  iCurrentSecond++;
+               }
+               else{
+                  iCurrentSecond = 0;
+                  if(iCurrentMinute < 59){
+                     iCurrentMinute++;
+                  }
+                  else{
+                     iCurrentMinute = 0;
+                     if(iCurrentHour < 23){
+                        iCurrentHour++;
+                     }
+                     else{
+                        iCurrentHour = 0;
+                     }
+                  }
+               }
+               updateTimeString();
+               (setTimeout(clockwork, 1000));
+            };
+            clockwork();
+         }
+         // Warn developer if he/she messed up the time string parameter to this plugin
+         else{
+            oApplyTo.html('Time string <strong>must</strong> be in the format "HH:MM:SS". Hours, minutes and seconds are all <strong>REQUIRED</strong>, as are the leading zeros, if any.');
+         }
+      }
+      // If there was no time string we let the Date object do the heavy-lifting
+      else{
+         var oCurrentDate;
+         var clientClock = function(){
+            oCurrentDate   = new Date();
+            iCurrentHour   = oCurrentDate.getHours();
+            iCurrentMinute = oCurrentDate.getMinutes();
+            iCurrentSecond = oCurrentDate.getSeconds();
+            updateTimeString();
+            (setTimeout(clientClock, 1000));
+         };
+         clientClock();
+      }
+   };
 })(jQuery);
 
