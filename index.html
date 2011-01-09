@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>thiago-cavalcanti/JS-Clock @ GitHub</title>
+	
+	<style type="text/css">
+		body {
+  		margin-top: 1.0em;
+  		background-color: #0aa6fb;
+		  font-family: "Helvetica,Arial,FreeSans";
+  		color: #000000;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+		h1 { font-size: 3.8em; color: #f55904; margin-bottom: 3px; }
+		h1 .small { font-size: 0.4em; }
+		h1 a { text-decoration: none }
+		h2 { font-size: 1.5em; color: #f55904; }
+    h3 { text-align: center; color: #f55904; }
+    a { color: #f55904; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+		pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+	</style>
+	
+</head>
+
+<body>
+  <a href="http://github.com/thiago-cavalcanti/JS-Clock"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="container">
+
+    <div class="download">
+      <a href="http://github.com/thiago-cavalcanti/JS-Clock/zipball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+      <a href="http://github.com/thiago-cavalcanti/JS-Clock/tarball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+    </div>
+
+    <h1><a href="http://github.com/thiago-cavalcanti/JS-Clock">JS-Clock</a>
+      <span class="small">by <a href="http://github.com/thiago-cavalcanti">thiago-cavalcanti</a></span></h1>
+
+    <div class="description">
+      A Javascript configurable clock plugin
+    </div>
+
+    <p>JS Clock - A Javascript configurable clock plugin
+Copyright (c) Thiago Cavalcanti Pimenta, dual licensed under the MIT and GPL licenses.
+
+This is a jQuery plugin to introduce clocks into web pages and apps. The ./demo.html and the ./docs/jsclock-0.4.html files have all the info that you'll need.
+
+Have FUN!</p><h2>Dependencies</h2>
+<p>jQuery</p>
+<h2>Install</h2>
+<p>Use this way:
+
+$('some-selector').jsclock();
+
+to replace the innerHTML of the selected elements with a clock in sync with the client time (uses Javascript's Date object) OR pass in some time string (server time, for example) in HH:MM:SS format, like this:
+
+$('some-selector').jsclock('14:29:36');
+
+to have it count the time independently of the client time (built-in plugin clockwork algorithm, NOT Javascript's Date object). NOTE: if at all possible, do try to measure the mean delay introduced by the network and account for it in the time string you pass into this plugin.
+
+You CAN use more than one such clock on a single page, just try to make sure that if you do so with multiple clocks showing the same time you use Sizzle to do it, like this:
+
+$('one-selector, another-selector, yet-another-selector').jsclock();
+
+You should try to reduce the number of calls to JS Clock to just one for each time string so DON'T do this:
+
+$('first-selector').jsclock('14:29:36'); $('second-selector').jsclock('14:29:36'); $('third-selector').jsclock(); $('fourth-selector').jsclock();</p>
+<h2>License</h2>
+<p>JS Clock - jQuery Plugin version 0.4
+
+Copyright (c) 2010 Thiago Cavalcanti Pimenta.
+Dual licensed under the MIT and GPL version 3 licenses.
+Check mit.txt and gpl.txt on this distribution for the respective licensing text.
+
+Date: 2011-01-09 (Sun, 9 Jan 2011)</p>
+<h2>Authors</h2>
+<p>Thiago Cavalcanti (thiago.cavalcanti.pimenta@gmail.com)<br/><br/>      </p>
+<h2>Contact</h2>
+<p>Thiago Cavalcanti Pimenta (thiago.cavalcanti.pimenta@gmail.com)<br/>      </p>
+
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="http://github.com/thiago-cavalcanti/JS-Clock/zipball/master">zip</a> or
+      <a href="http://github.com/thiago-cavalcanti/JS-Clock/tarball/master">tar</a> formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/thiago-cavalcanti/JS-Clock</pre>
+    </p>
+
+    <div class="footer">
+      get the source code on GitHub : <a href="http://github.com/thiago-cavalcanti/JS-Clock">thiago-cavalcanti/JS-Clock</a>
+    </div>
+
+  </div>
+
+  
+</body>
+</html>
