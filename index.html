@@ -16,20 +16,25 @@
    </head>
    <body>
       <div id="container">
+         <a href="http://github.com/thiago-cavalcanti/JS-Clock"><img style="position:absolute;top:0;right:0;border:0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
          <h1>JS Clock</h1>
+         <div id="download">
+            <a href="http://github.com/thiago-cavalcanti/JS-Clock/zipball/master"><img border="0" width="144" height="142" src="http://github.com/images/modules/download/zip.png" /></a>
+            <a href="http://github.com/thiago-cavalcanti/JS-Clock/tarball/master"><img border="0" width="144" height="142" src="http://github.com/images/modules/download/tar.png" /></a>
+         </div>
          <h2>A Javascript configurable clock plugin</h2>
          <div id="local">
             <h3><strong>Client time</strong> clock</h3>
-            <span id="localclock">There should be a clock here. Please enable Javascript to see it.</span>
+            <span id="localclock"><noscript>There should be a clock here. Please enable Javascript to see it.</noscript></span>
             <p>This clock ticks in sync with whichever time the user's OS has.</p>
          </div>
          <div id="arbitrary">
             <h3>Start from <strong>11:11:11</strong></h3>
-            <span id="arbitraryclock">There should be a clock here. Please enable Javascript to see it.</span>
+            <span id="arbitraryclock"><noscript>There should be a clock here. Please enable Javascript to see it.</noscript></span>
             <p>This clock always starts ticking from 11:11:11, whenever this page is loaded. It could just as easily be set to start ticking in sync with any time you choose, all you need to do is have your back-end pass in the required time as a string in the format 'HH:MM:SS' to the plugin call. Do try to take into account the mean network delay, if you can.</p>
          </div>
          <div id="description">
-            <p><span class="plugin-name"><a href="http://github.com/thiago-cavalcanti/JS-Clock" title="Github plugin page.">JS Clock</a></span> is a plugin which allows you to easily introduce real live clocks into your web pages and apps. These clocks (note the plural form) can be set to tick 100&#37; independently of each other. Not only that, but they don't need to be in sync with the time from the client, as they can be set independently or in groups (you choose) to start ticking from an arbitrary initial time, set by you. This plugin was conceived with easy back-end integration in mind, and it is extremely simple to use.</p>
+            <p><span class="mtlink"><a href="http://github.com/thiago-cavalcanti/JS-Clock" title="Github plugin page.">JS Clock</a></span> is a <span class="mtlink"><a href="http://jquery.com/" title="jQuery website">jQuery</a></span> plugin which allows you to easily introduce real live clocks into your web pages and apps. These clocks (note the plural form) can be set to tick 100&#37; independently of each other. Not only that, but they don't need to be in sync with the time from the client, as they can be set independently or in groups (you choose) to start ticking from an arbitrary initial time, set by you. This plugin was conceived with easy back-end integration in mind, and it is extremely simple to use. Be sure to check out the <span class="mtlink"><a href="docs/jsclock-0.4.html" title="Pretty printed, syntax highlighted annotated source.">Annotated Source</a></span> if you're curious to see how it works.</p>
          </div>
          <h4>Usage:</h4>
          <div id="instructions">

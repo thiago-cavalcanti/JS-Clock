@@ -1,78 +1,88 @@
 body {
-	font-family:"Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
-	font-size:12px;
-	line-height:18px;
+   font-family:"Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
+   font-size:12px;
+   line-height:18px;
 }
 #container {
-	width:800px;
-	margin:0 auto;
+   width:800px;
+   margin:0 auto;
 }
 h1 {
-	font-size:72px;
-	line-height:108px;
+   float:left;
+   font-size:72px;
+   line-height:108px;
+   padding-left:36px;
+   padding-top:18px;
 }
-h1, .plugin-name a {
-	color:#444;
+h2 {
+   clear:both;
 }
-.plugin-name a:hover {
-	color:#000;
+h1, .mtlink a {
+   color:#444;
+}
+.mtlink a:hover {
+   color:#000;
 }
 h2, #notes ul li, #local, #arbitrary {
-	margin-bottom:18px;
+   margin-bottom:18px;
 }
 h2, h4, h5 {
-	font-size:36px;
-	line-height:54px;
-	color:#666;
+   font-size:36px;
+   line-height:54px;
+   color:#666;
 }
 h3, pre, #description, #licensing, #footer {
-	font-size:24px;
-	line-height:36px;
+   font-size:24px;
+   line-height:36px;
 }
 h3 strong, h5{
-	color:#C00;
+   color:#C00;
 }
 h4, h5, h6 {
-	margin-top:18px;
+   margin-top:18px;
 }
 h1, h2, h3, h6 {
-	text-align:center;
+   text-align:center;
 }
 #description{
-	clear:both;
+   clear:both;
 }
 #arbitrary p, #local p {
-	font-size:15px;
-	line-height:18px;
-	padding:0 15px;
+   font-size:15px;
+   line-height:18px;
+   padding:0 15px;
 }
 #local, #arbitrary {
-	width:400px;
-	float:left;
+   width:400px;
+   float:left;
 }
 #localclock, #arbitraryclock {
-	font-size:72px;
-	line-height:108px;
-	margin-left:55px;
+   font-size:72px;
+   line-height:108px;
+   margin-left:55px;
 }
 #instructions {
-	margin-top:9px;
+   margin-top:9px;
 }
 #instructions p {
-	margin:9px 0;
+   margin:9px 0;
 }
 pre {
-	font-family:"Courier New", Courier, monospace;
-	color:#777;
+   font-family:"Courier New", Courier, monospace;
+   color:#777;
 }
 #notes ul {
-	list-style-type:circle;
-	margin:9px 80px;
+   list-style-type:circle;
+   margin:9px 80px;
 }
 q {
-	font-style:italic;
+   font-style:italic;
 }
 #smiley {
-	font-weight:bold;
-	color:#0A0;
+   font-weight:bold;
+   color:#0A0;
+}
+#download {
+   float:right;
+   padding-right:36px;
 }
