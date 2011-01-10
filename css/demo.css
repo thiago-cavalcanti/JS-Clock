@@ -3,6 +3,9 @@ body {
    font-size:12px;
    line-height:18px;
 }
+img {
+   border:0;
+}
 #container {
    width:800px;
    margin:0 auto;
