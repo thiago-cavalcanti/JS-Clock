@@ -1,5 +1,5 @@
 #!
-# JS Clock - jQuery Plugin version 0.6
+# JS Clock - jQuery Plugin version 0.7
 # http://thiago-cavalcanti.github.com/JS-Clock/    
 #
 # Copyright (c) 2010 Thiago Cavalcanti Pimenta.
@@ -57,6 +57,11 @@
 # If you set countdown to true you MUST define a time string as a starting
 # point! The callback is entirely optional, if it isn't present the countdown
 # timer will simply wrap around to 23:59:59. :)
+#
+# You can get the current time of the latest enabled clock like this:
+#
+# var myClock = $('some-selector').jsclock(14:29:36);
+# var timeNow = myClock.jsclock.getTime();
 # 
 # TODO: see ROADMAP file in this distribution. 
 #
@@ -65,6 +70,10 @@ $ = jQuery
 $.fn.jsclock = (sTime, oConfig) ->
    # Save a reference for use later.
    oApplyTo = this
+   sCurrentTime = ""
+   # Return the current time string if needed.
+   $.fn.jsclock.getTime = ->
+      return sCurrentTime
    @each ->
       #
       # Correct the parameters assignments if only the configuration object has
@@ -78,7 +87,6 @@ $.fn.jsclock = (sTime, oConfig) ->
       iCurrentMinute = 0
       iCurrentSecond = 0
       iCurrentCenti  = 0
-      sCurrentTime   = ""
       # This is a utility function used by all approaches.
       updateTimeString = ->
          addLeadingZero = (iTimeStringFragment) ->

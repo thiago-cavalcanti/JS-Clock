@@ -1,5 +1,3 @@
-0.6 : implement countdown option.
-0.7 : implement getTime(); method.
 0.8 : implement stopClock(); / startClock(); / toggleClock(); methods.
 0.9 : implement showHour and showMinute options.
 1.0 : optimization and api freeze.

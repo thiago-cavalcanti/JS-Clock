@@ -1,5 +1,5 @@
 /*!
- * JS Clock - jQuery Plugin version 0.6
+ * JS Clock - jQuery Plugin version 0.7
  * http://thiago-cavalcanti.github.com/JS-Clock/
  *
  * Copyright (c) 2010 Thiago Cavalcanti Pimenta.
@@ -13,10 +13,14 @@
   var $;
   $ = jQuery;
   $.fn.jsclock = function(sTime, oConfig) {
-    var oApplyTo;
+    var oApplyTo, sCurrentTime;
     oApplyTo = this;
+    sCurrentTime = "";
+    $.fn.jsclock.getTime = function() {
+      return sCurrentTime;
+    };
     return this.each(function() {
-      var aHoursMinutesSeconds, clientClock, clockwork, iCurrentCenti, iCurrentHour, iCurrentMinute, iCurrentSecond, rValidateTimeString, reverseClockwork, sCurrentTime, updateTimeString;
+      var aHoursMinutesSeconds, clientClock, clockwork, iCurrentCenti, iCurrentHour, iCurrentMinute, iCurrentSecond, rValidateTimeString, reverseClockwork, updateTimeString;
       if (typeof sTime === "object") {
         oConfig = sTime;
         sTime = null;
@@ -25,7 +29,6 @@
       iCurrentMinute = 0;
       iCurrentSecond = 0;
       iCurrentCenti = 0;
-      sCurrentTime = "";
       updateTimeString = function() {
         var addLeadingZero;
         addLeadingZero = function(iTimeStringFragment) {
