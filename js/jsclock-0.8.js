@@ -1,5 +1,5 @@
 /*!
- * JS Clock - jQuery Plugin version 0.7
+ * JS Clock - jQuery Plugin version 0.8
  * http://thiago-cavalcanti.github.com/JS-Clock/
  *
  * Copyright (c) 2010 Thiago Cavalcanti Pimenta.
@@ -7,20 +7,43 @@
  * Check mit.txt and gpl.txt on this distribution for the respective
  * licensing text.
  *
- * Date: 2011-01-23 (Sun, 23 Jan 2011)
+ * Date: 2011-01-29 (Sat, 29 Jan 2011)
  */
 (function() {
   var $;
   $ = jQuery;
   $.fn.jsclock = function(sTime, oConfig) {
-    var oApplyTo, sCurrentTime;
-    oApplyTo = this;
+    var sCurrentTime, that;
+    that = this;
     sCurrentTime = "";
+    if (oConfig == null) {
+      oConfig = {};
+    }
     $.fn.jsclock.getTime = function() {
       return sCurrentTime;
     };
+    $.fn.jsclock.stopClock = function() {
+      return oConfig.stopClock = true;
+    };
+    $.fn.jsclock.startClock = function() {
+      if (oConfig.stopClock === true) {
+        oConfig.stopClock = false;
+        if (sTime === null) {
+          return that.jsclock(sTime, oConfig);
+        } else {
+          return that.jsclock(sCurrentTime, oConfig);
+        }
+      }
+    };
+    $.fn.jsclock.toggleClock = function() {
+      if (oConfig.stopClock === true) {
+        return that.jsclock.startClock();
+      } else {
+        return that.jsclock.stopClock();
+      }
+    };
     return this.each(function() {
-      var aHoursMinutesSeconds, clientClock, clockwork, iCurrentCenti, iCurrentHour, iCurrentMinute, iCurrentSecond, rValidateTimeString, reverseClockwork, updateTimeString;
+      var aTime, clientClock, clockwork, iCurrentCenti, iCurrentHour, iCurrentMinute, iCurrentSecond, rValidateTimeString, reverseClockwork, updateTimeString;
       if (typeof sTime === "object") {
         oConfig = sTime;
         sTime = null;
@@ -41,41 +64,43 @@
         iCurrentMinute = addLeadingZero(iCurrentMinute);
         iCurrentSecond = addLeadingZero(iCurrentSecond);
         iCurrentCenti = addLeadingZero(iCurrentCenti);
-        if ((oConfig != null) && oConfig.showCenti === true) {
+        if (oConfig.showCenti === true) {
           sCurrentTime = "" + iCurrentHour + ":" + iCurrentMinute + ":" + iCurrentSecond + ":" + iCurrentCenti;
         } else {
           sCurrentTime = "" + iCurrentHour + ":" + iCurrentMinute + ":" + iCurrentSecond;
         }
-        return oApplyTo.html(sCurrentTime);
+        that.html(sCurrentTime);
+        if (oConfig.stopClock === true) {
+          return clearTimeout(clockLoop);
+        }
       };
-      rValidateTimeString = /^(([01][0-9])|(2[0-3])):[0-5][0-9]:[0-5][0-9]$/;
-      if (oConfig != null) {
-        if (oConfig.countdown != null) {
-          if (oConfig.countdown !== true && oConfig.countdown !== false) {
-            oApplyTo.html('countdown value must either be "true" or "false".');
-            return false;
-          }
+      rValidateTimeString = /^(([01][0-9])|(2[0-3])):[0-5][0-9]:[0-5][0-9](:[0-9][0-9])?$/i;
+      if (oConfig.countdown != null) {
+        if (typeof oConfig.countdown !== "boolean") {
+          that.html('countdown value must either be "true" or "false".');
+          return false;
         }
-        if (oConfig.showCenti != null) {
-          if (oConfig.showCenti !== true && oConfig.showCenti !== false) {
-            oApplyTo.html('showCenti value must either be "true" or "false".');
-            return false;
-          }
+      }
+      if (oConfig.showCenti != null) {
+        if (typeof oConfig.showCenti !== "boolean") {
+          that.html('showCenti value must either be "true" or "false".');
+          return false;
         }
-        if (oConfig.callback != null) {
-          if (typeof oConfig.callback !== "function") {
-            oApplyTo.html('callback must be a function!');
-            return false;
-          }
+      }
+      if (oConfig.callback != null) {
+        if (typeof oConfig.callback !== "function") {
+          that.html('callback must be a function!');
+          return false;
         }
       }
       if (sTime) {
         if (rValidateTimeString.test(sTime)) {
-          aHoursMinutesSeconds = sTime.split(':');
-          iCurrentHour = aHoursMinutesSeconds[0];
-          iCurrentMinute = aHoursMinutesSeconds[1];
-          iCurrentSecond = aHoursMinutesSeconds[2];
-          if ((oConfig != null) && oConfig.countdown === true) {
+          aTime = sTime.split(':');
+          iCurrentHour = aTime[0];
+          iCurrentMinute = aTime[1];
+          iCurrentSecond = aTime[2];
+          iCurrentCenti = aTime[3];
+          if (oConfig.countdown === true) {
             reverseClockwork = function() {
               var baseclock, fullclock, simpleclock;
               baseclock = function() {
@@ -91,7 +116,7 @@
                       return iCurrentHour--;
                     } else {
                       if (typeof oConfig.callback === "function") {
-                        oConfig.callback.call(oApplyTo);
+                        oConfig.callback.call(that);
                         return clearTimeout(clockloop);
                       } else {
                         return iCurrentHour = 23;
@@ -117,7 +142,7 @@
                 updateTimeString();
                 return clockloop = setTimeout(fullclock, 10);
               };
-              if ((oConfig != null) && oConfig.showCenti === true) {
+              if (oConfig.showCenti === true) {
                 return fullclock();
               } else {
                 return simpleclock();
@@ -145,11 +170,13 @@
                 }
               };
               simpleclock = function() {
+                var clockLoop;
                 baseclock();
                 updateTimeString();
-                return setTimeout(simpleclock, 1000);
+                return clockLoop = setTimeout(simpleclock, 1000);
               };
               fullclock = function() {
+                var clockLoop;
                 if (iCurrentCenti < 99) {
                   iCurrentCenti++;
                 } else {
@@ -157,9 +184,9 @@
                   baseclock();
                 }
                 updateTimeString();
-                return setTimeout(fullclock, 10);
+                return clockLoop = setTimeout(fullclock, 10);
               };
-              if ((oConfig != null) && oConfig.showCenti === true) {
+              if (oConfig.showCenti === true) {
                 return fullclock();
               } else {
                 return simpleclock();
@@ -168,11 +195,15 @@
             return clockwork();
           }
         } else {
-          return oApplyTo.html('Time string <strong>must</strong> be in the format "HH:MM:SS". Hours, minutes and seconds are all <strong>REQUIRED</strong>, as are the leading zeros, if any.');
+          return that.html('Time string <strong>must</strong> be either in the format\
+            "HH:MM:SS" or in the "HH:MM:SS:CC" format. Hours, minutes and \
+            seconds are all <strong>REQUIRED</strong>, as are the leading zeros, \
+            if any. Centiseconds are entirely optional, even if showCenti is \
+            true.');
         }
       } else {
-        if ((oConfig != null) && oConfig.countdown === true) {
-          oApplyTo.html('You must specify a time string to countdown from!');
+        if (oConfig.countdown === true) {
+          that.html('You must specify a time string to countdown from!');
           return false;
         } else {
           clientClock = function() {
@@ -185,9 +216,10 @@
               return iCurrentSecond = oCurrentDate.getSeconds();
             };
             simpleclock = function() {
+              var clockLoop;
               baseclock();
               updateTimeString();
-              return setTimeout(simpleclock, 1000);
+              return clockLoop = setTimeout(simpleclock, 1000);
             };
             fullclock = function() {
               var bFirstTime, oCurrentDate;
@@ -207,7 +239,7 @@
               updateTimeString();
               return setTimeout(fullclock, 10);
             };
-            if ((oConfig != null) && oConfig.showCenti === true) {
+            if (oConfig.showCenti === true) {
               return fullclock();
             } else {
               return simpleclock();

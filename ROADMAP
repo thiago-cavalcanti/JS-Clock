@@ -1,3 +1,2 @@
-0.8 : implement stopClock(); / startClock(); / toggleClock(); methods.
 0.9 : implement showHour and showMinute options.
 1.0 : optimization and api freeze.

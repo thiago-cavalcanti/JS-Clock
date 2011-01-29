@@ -1,5 +1,5 @@
 #!
-# JS Clock - jQuery Plugin version 0.7
+# JS Clock - jQuery Plugin version 0.8
 # http://thiago-cavalcanti.github.com/JS-Clock/    
 #
 # Copyright (c) 2010 Thiago Cavalcanti Pimenta.
@@ -62,6 +62,13 @@
 #
 # var myClock = $('some-selector').jsclock(14:29:36);
 # var timeNow = myClock.jsclock.getTime();
+#
+# Similarly, it is possible to stop, restart, and toggle the latest enabled
+# clock like this:
+#
+# $('some-selector').jsclock.stopClock();
+# $('some-selector').jsclock.startClock();
+# $('some-selector').jsclock.toggleClock();
 # 
 # TODO: see ROADMAP file in this distribution. 
 #
@@ -69,11 +76,30 @@
 $ = jQuery
 $.fn.jsclock = (sTime, oConfig) ->
    # Save a reference for use later.
-   oApplyTo = this
+   that = this
+   # This needs to be visible from everywhere.
    sCurrentTime = ""
+   # Avoids checking for it's existence later on.
+   unless oConfig?
+      oConfig = {}
    # Return the current time string if needed.
    $.fn.jsclock.getTime = ->
       return sCurrentTime
+   # Stop!
+   $.fn.jsclock.stopClock = ->
+      oConfig.stopClock = true
+   # Start again...
+   $.fn.jsclock.startClock = ->
+      if oConfig.stopClock is true
+         oConfig.stopClock = false
+         if sTime is null
+            that.jsclock(sTime, oConfig)
+         else
+            that.jsclock(sCurrentTime, oConfig)
+   $.fn.jsclock.toggleClock = ->
+      if oConfig.stopClock is true
+         that.jsclock.startClock()
+      else that.jsclock.stopClock()
    @each ->
       #
       # Correct the parameters assignments if only the configuration object has
@@ -97,42 +123,63 @@ $.fn.jsclock = (sTime, oConfig) ->
          iCurrentMinute = addLeadingZero(iCurrentMinute)
          iCurrentSecond = addLeadingZero(iCurrentSecond)
          iCurrentCenti  = addLeadingZero(iCurrentCenti)
-         if oConfig? and oConfig.showCenti is true
+         if oConfig.showCenti is true
             sCurrentTime = "#{iCurrentHour}:#{iCurrentMinute}:#{iCurrentSecond}:#{iCurrentCenti}"
          else
             sCurrentTime = "#{iCurrentHour}:#{iCurrentMinute}:#{iCurrentSecond}"
-         oApplyTo.html(sCurrentTime)
+         that.html(sCurrentTime)
+         if oConfig.stopClock is true
+            clearTimeout(clockLoop)
       #
-      # This RegEx matches time strings in the format HH:MM:SS / Hours, minutes
-      # and seconds are all REQUIRED, as are the leading zeros, if any.
+      # This RegEx matches time strings either in the format HH:MM:SS or in the
+      # format HH:MM:SS:CC / Hours, minutes and seconds are all REQUIRED, as are
+      # the leading zeros, if any. Centiseconds are entirely optional, even if
+      # showCenti is true.
       #
-      rValidateTimeString = /^(([01][0-9])|(2[0-3])):[0-5][0-9]:[0-5][0-9]$/
+      rValidateTimeString = /// ^ 
+         (              # First the hours.
+            (
+            [01][0-9]   # From 00 hours to 19 hours.
+            )
+            | (
+            2[0-3]      # From 20 to 23 hours.
+            )
+         )
+         :              # Ye old separator.
+         [0-5][0-9]     # From 00 to 59 minutes.
+         :
+         [0-5][0-9]     # Same as above, now for seconds.
+         (
+         :
+         [0-9][0-9]     # From 00 to 99 centiseconds.
+         )?             # Ignore if not specified.
+         $ ///i
       #
       # Checking if the configuration values exist and, if so, if they're valid.
       # Warn and cease if there is a problem.
       #
-      if oConfig?
-         if oConfig.countdown?
-            if oConfig.countdown isnt true and oConfig.countdown isnt false
-               oApplyTo.html('countdown value must either be "true" or "false".')
-               return false
-         if oConfig.showCenti?
-            if oConfig.showCenti isnt true and oConfig.showCenti isnt false
-               oApplyTo.html('showCenti value must either be "true" or "false".')
-               return false
-         if oConfig.callback?
-            if typeof oConfig.callback isnt "function"
-               oApplyTo.html('callback must be a function!')
-               return false
+      if oConfig.countdown?
+         if typeof oConfig.countdown isnt "boolean"
+            that.html('countdown value must either be "true" or "false".')
+            return false
+      if oConfig.showCenti?
+         if typeof oConfig.showCenti isnt "boolean"
+            that.html('showCenti value must either be "true" or "false".')
+            return false
+      if oConfig.callback?
+         if typeof oConfig.callback isnt "function"
+            that.html('callback must be a function!')
+            return false
       # If a time string has been passed we'll use a clockwork algorithm.
       if sTime
          # Need to make sure it's a valid time string before proceeding.
          if rValidateTimeString.test(sTime)
-            aHoursMinutesSeconds = sTime.split(':')
-            iCurrentHour         = aHoursMinutesSeconds[0]
-            iCurrentMinute       = aHoursMinutesSeconds[1]
-            iCurrentSecond       = aHoursMinutesSeconds[2]
-            if oConfig? and oConfig.countdown is true
+            aTime          = sTime.split(':')
+            iCurrentHour   = aTime[0]
+            iCurrentMinute = aTime[1]
+            iCurrentSecond = aTime[2]
+            iCurrentCenti  = aTime[3]
+            if oConfig.countdown is true
                # Reverse clockwork algorithm.
                reverseClockwork = ->
                   baseclock = ->
@@ -148,7 +195,7 @@ $.fn.jsclock = (sTime, oConfig) ->
                               iCurrentHour--
                            else
                               if typeof oConfig.callback is "function"
-                                 oConfig.callback.call(oApplyTo)
+                                 oConfig.callback.call(that)
                                  clearTimeout(clockloop)
                               else
                                  iCurrentHour = 23
@@ -164,7 +211,7 @@ $.fn.jsclock = (sTime, oConfig) ->
                         baseclock()
                      updateTimeString()
                      clockloop = (setTimeout(fullclock, 10))
-                  if oConfig? and oConfig.showCenti is true
+                  if oConfig.showCenti is true
                      fullclock()
                   else simpleclock()
                reverseClockwork()
@@ -187,7 +234,7 @@ $.fn.jsclock = (sTime, oConfig) ->
                   simpleclock = ->
                      baseclock()
                      updateTimeString()
-                     (setTimeout(simpleclock, 1000))
+                     clockLoop = (setTimeout(simpleclock, 1000))
                   fullclock = ->
                      if iCurrentCenti < 99
                         iCurrentCenti++
@@ -195,18 +242,22 @@ $.fn.jsclock = (sTime, oConfig) ->
                         iCurrentCenti = 0
                         baseclock()
                      updateTimeString()
-                     (setTimeout(fullclock, 10))
-                  if oConfig? and oConfig.showCenti is true
+                     clockLoop = (setTimeout(fullclock, 10))
+                  if oConfig.showCenti is true
                      fullclock()
                   else simpleclock()
                clockwork()
          # Warn developer if he/she messed up the time parameter to this plugin.
          else
-            oApplyTo.html('Time string <strong>must</strong> be in the format "HH:MM:SS". Hours, minutes and seconds are all <strong>REQUIRED</strong>, as are the leading zeros, if any.')
+            that.html('Time string <strong>must</strong> be either in the format
+            "HH:MM:SS" or in the "HH:MM:SS:CC" format. Hours, minutes and 
+            seconds are all <strong>REQUIRED</strong>, as are the leading zeros, 
+            if any. Centiseconds are entirely optional, even if showCenti is 
+            true.')
       else
          # Complain if the user wishes to countdown from an undefined time...
-         if oConfig? and oConfig.countdown is true
-            oApplyTo.html('You must specify a time string to countdown from!')
+         if oConfig.countdown is true
+            that.html('You must specify a time string to countdown from!')
             return false
          else
             # If there's no time string let the Date object do the heavy-lifting.
@@ -219,7 +270,7 @@ $.fn.jsclock = (sTime, oConfig) ->
                simpleclock = ->
                   baseclock()
                   updateTimeString()
-                  (setTimeout(simpleclock, 1000))
+                  clockLoop = (setTimeout(simpleclock, 1000))
                fullclock = ->
                   if bFirstTime?
                      if iCurrentCenti < 99
@@ -230,11 +281,12 @@ $.fn.jsclock = (sTime, oConfig) ->
                   else
                      baseclock()
                      oCurrentDate  = new Date()
-                     iCurrentCenti = oCurrentDate.getMilliseconds().toString().substr(0,2)
+                     iCurrentCenti = oCurrentDate.getMilliseconds().toString()
+                                     .substr(0,2)
                      bFirstTime    = true
                   updateTimeString()
                   (setTimeout(fullclock, 10))
-               if oConfig? and oConfig.showCenti is true
+               if oConfig.showCenti is true
                   fullclock()
                else simpleclock()
             clientClock()

@@ -1,1 +1,1 @@
-getTime() only works for the last clock inserted on the page.
+getTime(), stopClock(), startClock() and toggleClock() only work for the last clock inserted on the page.
