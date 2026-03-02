@@ -1,6 +1,8 @@
 JS Clock - A Javascript configurable clock plugin
 Copyright (c) Thiago Cavalcanti Pimenta, dual licensed under the MIT and GPL licenses.
 
-This is a jQuery plugin to introduce clocks into web pages and apps. The website (located at http://thiago-cavalcanti.github.io/JS-Clock/ ) has all the info that you'll need.
+This is a jQuery plugin to introduce clocks into web pages and apps. The website (located at https://www.tcpweb.com.br/JS-Clock/ ) has all the info that you'll need.
 
 Have FUN!
+
+This is an ancient project that is no longer maintained and kept available only as a historical artifact, but there's a new, much better modern TypeScript version with no dependencies available now, please check it out at: https://www.tcpweb.com.br/new-js-clock/
